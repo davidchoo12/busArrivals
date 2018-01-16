@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bus Arrival</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<style>
+		code {
+			white-space: pre;
+			display: block;
+		}
+		code.faded {
+			opacity: 0.5;
+		}
+		.badge {
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="tiles" class="row"></div>
+	</div>
+	<script id="template-busstop" type="text/template">
+	<div id="{{id}}" class="busstop col-3">
+		<h3>{{id}}</h3>
+		{{#each services}}
+		<span class="badge badge-pill {{#if show}}badge-secondary{{^}}badge-light{{/if}}">{{no}}</span>
+		{{/each}}
+		<br>
+		{{#each services}}
+		<code class="s-{{no}} {{#if show}}{{^}}d-none{{/if}}"><b>{{no}}: </b><span>{{next}} | {{next2}} | {{next3}}</span></code>
+		{{/each}}
+	</div>
+	</script>
+	<script>
+		// Handlebars helper: Contains
+		// check if a value is contained in an array
+		Handlebars.registerHelper("contains", function( value, array, options ){
+			// fallback...
+			array = ( array instanceof Array ) ? array : [array];
+			return (array.indexOf(value) > -1) ? "badge-secondary" : "badge-light";
+		});
+		var pref = {
+			stops: [
+				{
+					id: 17179,
+					services: [
+						{
+							no: '52',
+							show: false
+						},
+						{
+							no: '105',
+							show: false
+						},
+						{
+							no: '106',
+							show: false
+						},
+						{
+							no: '106A',
+							show: false
+						},
+						{
+							no: '154',
+							show: false
+						},
+						{
+							no: '183',
+							show: true
+						},
+						{
+							no: '184',
+							show: false
+						},
+						{
+							no: '185',
+							show: false
+						},
+						{
+							no: '189',
+							show: false
+						},
+						{
+							no: '201',
+							show: true
+						}
+					]
+				},
+				{
+					id: 17009,
+					services: [
+						{
+							no: '96',
+							show: true
+						}
+					]
+				},
+				{
+					id: 16189,
+					services: [
+						{
+							no: '96',
+							show: true
+						}
+					]
+				},
+				{
+					id: 16179,
+					services: [
+						{
+							no: '96',
+							show: true
+						}
+					]
+				},
+				{
+					id: 16169,
+					services: [
+						{
+							no: '96',
+							show: true
+						}
+					]
+				},
+				{
+					id: 16131,
+					services: [
+						{
+							no: '183',
+							show: true
+						}
+					]
+				}
+			]
+		};
+		var source = document.getElementById('template-busstop').innerHTML;
+		var template = Handlebars.compile(source);
+		// var a;
+
+		pref.stops.forEach((stop, i) => {
+			var context = stop;
+			var html = template(context);
+			document.getElementById('tiles').insertAdjacentHTML('beforeend', html);
+		});
+		update();
+		function update() {
+			pref.stops.forEach((stop, i) => {
+				fetch('https://arrivelah.herokuapp.com/?id=' + stop.id)
+				.then((data) => data.json())
+				.then((data) => {
+					// a = data;
+					stop.services.map(prefService => {
+						dataService = data.services.find(service => service.no == prefService.no);
+						['next','next2','next3'].map(n => {
+							if(dataService && dataService[n])
+								prefService[n] = convertMS(dataService[n].duration_ms);
+							else
+								prefService[n] = 'N/A   ';
+						}, this);
+					});
+					var context = stop;
+					var html = template(context);
+					document.getElementById(stop.id).outerHTML = html;
+				});
+			});
+			// setTimeout(update, 15000);
+		}
+
+		function convertMS(ms) {
+			var m, s, r;
+			s = Math.floor(ms / 1000);
+			m = Math.floor(s / 60);
+			s = s % 60;
+			r = ms > 0 ? `${m}m${s}s` : 'Now';
+			return r.padEnd(6);
+		}
+		// fetch('https://arrivelah.herokuapp.com/?id=83139%26ServiceNo=150')
+		// .then((data) => data.json())
+		// .then((data) => console.log(data));
+		document.getElementById('tiles').addEventListener('click', e => {
+				if(e.target.classList.contains('badge')){
+					e.target.classList.toggle('badge-secondary');
+					e.target.classList.toggle('badge-light');
+					const service = e.target.innerHTML;
+					const line = e.path[1].querySelector(`code.s-${service}`);
+					line.classList.toggle('d-none');
+					const stop = e.path[1].id;
+					const prefService = pref.stops.find(e => e.id == stop).services.find(e => e.no == service);
+					prefService.show = !prefService.show;
+				}
+			});
+	</script>
+</body>
+</html>
