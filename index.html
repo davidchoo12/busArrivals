@@ -1,197 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Bus Arrival</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-	<style>
-		code {
-			white-space: pre;
-			display: block;
-		}
-		code.faded {
-			opacity: 0.5;
-		}
-		.badge {
-			cursor: pointer;
-		}
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Bus Arrival</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+  <style>
+  code {
+    white-space: pre;
+    display: block;
+  }
+  code.faded {
+    opacity: 0.5;
+  }
+  .badge {
+    cursor: pointer;
+  }
+  .collapsing {
+    transition: none; /* disable bootstrap collapse animation */
+  }
+</style>
 </head>
 <body>
-	<div class="container">
-		<div id="tiles" class="row"></div>
-	</div>
-	<script id="template-busstop" type="text/template">
-	<div id="{{id}}" class="busstop col-3">
-		<h3>{{id}}</h3>
-		{{#each services}}
-		<span class="badge badge-pill {{#if show}}badge-secondary{{^}}badge-light{{/if}}">{{no}}</span>
-		{{/each}}
-		<br>
-		{{#each services}}
-		<code class="s-{{no}} {{#if show}}{{^}}d-none{{/if}}"><b>{{no}}: </b><span>{{next}} | {{next2}} | {{next3}}</span></code>
-		{{/each}}
-	</div>
-	</script>
-	<script>
-		// Handlebars helper: Contains
-		// check if a value is contained in an array
-		Handlebars.registerHelper("contains", function( value, array, options ){
-			// fallback...
-			array = ( array instanceof Array ) ? array : [array];
-			return (array.indexOf(value) > -1) ? "badge-secondary" : "badge-light";
-		});
-		var pref = {
-			stops: [
-				{
-					id: 17179,
-					services: [
-						{
-							no: '52',
-							show: false
-						},
-						{
-							no: '105',
-							show: false
-						},
-						{
-							no: '106',
-							show: false
-						},
-						{
-							no: '106A',
-							show: false
-						},
-						{
-							no: '154',
-							show: false
-						},
-						{
-							no: '183',
-							show: true
-						},
-						{
-							no: '184',
-							show: false
-						},
-						{
-							no: '185',
-							show: false
-						},
-						{
-							no: '189',
-							show: false
-						},
-						{
-							no: '201',
-							show: true
-						}
-					]
-				},
-				{
-					id: 17009,
-					services: [
-						{
-							no: '96',
-							show: true
-						}
-					]
-				},
-				{
-					id: 16189,
-					services: [
-						{
-							no: '96',
-							show: true
-						}
-					]
-				},
-				{
-					id: 16179,
-					services: [
-						{
-							no: '96',
-							show: true
-						}
-					]
-				},
-				{
-					id: 16169,
-					services: [
-						{
-							no: '96',
-							show: true
-						}
-					]
-				},
-				{
-					id: 16131,
-					services: [
-						{
-							no: '183',
-							show: true
-						}
-					]
-				}
-			]
-		};
-		var source = document.getElementById('template-busstop').innerHTML;
-		var template = Handlebars.compile(source);
-		// var a;
+  <div id="wrapper" class="container">
+    <!-- <div id="tiles" class="row"></div> -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Stop</button>
+    <button id="update-button" type="button" class="btn btn-primary">Update</button>
+  </div>
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Bus Stop</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="bus-stop-input" class="col-form-label">Bus Stop:</label>
+              <input type="text" class="form-control" id="bus-stop-input">
+              <input type="text" class="form-control" id="bus-stop-name-input">
+              <select class="form-control" id="bus-stop-source">
+                <option value="LTA">LTA</option>
+                <option value="NUS">NUS</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" id="add-button" class="btn btn-primary" data-dismiss="modal">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script id="template-busstop" type="text/template">
+    <div id="{{id}}" class="{{id}} busstop col-6 col-md-4 col-lg-3">
+      <a data-toggle="collapse" href="#badges-{{id}}"><h5>{{name}} - {{id}}</h5></a>
+      <div id="badges-{{id}}" class="collapse">
+        {{#each services}}
+        <span class="badge badge-pill {{#if show}}badge-secondary{{^}}badge-light{{/if}}">{{no}}</span>
+        {{/each}}
+      </div>
+      {{#each services}}
+      <code class="s-{{no}} {{#if show}}{{^}}d-none{{/if}}"><b>{{no}}: </b><span>{{arrival}}</span></code>
+      {{/each}}
+    </div>
+  </script>
+  <script>
+    // Handlebars helper: Contains
+    // check if a value is contained in an array
+    Handlebars.registerHelper("contains", function( value, array, options ){
+      // fallback...
+      array = ( array instanceof Array ) ? array : [array];
+      return (array.indexOf(value) > -1) ? "badge-secondary" : "badge-light";
+    });
+    const backupPref = {
+      stops: [{"id":"17179","name":"Clementi Stn","services":[{"no":"105","show":false},{"no":"106","show":false},{"no":"154","show":false},{"no":"183","show":true},{"no":"184","show":false},{"no":"185","show":false},{"no":"189","show":false},{"no":"201","show":true},{"no":"52","show":false}]},{"id":"17009","name":"Clementi Int","services":[{"no":"14","show":false},{"no":"147","show":false},{"no":"156","show":false},{"no":"165","show":false},{"no":"166","show":false},{"no":"173","show":false},{"no":"175","show":false},{"no":"196","show":false},{"no":"282","show":false},{"no":"284","show":false},{"no":"285","show":false},{"no":"7","show":false},{"no":"96","show":true},{"no":"99","show":false}]},{"id":"16189","name":"Computer Ctr","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16179","name":"Opp Yusof Ishak Hse","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16169","name":"NUS Raffles Hall","services":[{"no":"151","show":false},{"no":"96","show":true}]},{"id":"16131","name":"Opp Kent Ridge Ter","services":[{"no":"183","show":true},{"no":"188","show":false},{"no":"33","show":false},{"no":"33A","show":false}]},{"id":"17099","name":"Aft Dover Rd","services":[{"no":"151","show":true},{"no":"183","show":true},{"no":"196","show":false},{"no":"33","show":false},{"no":"96","show":true}]},{"id":"COM2","name":"COM2","services":[{"no":"A1","show":true},{"no":"D1(To BIZ2)","show":true},{"no":"D1(To UTown)","show":true},{"no":"A2","show":true}],"nus":true},{"id":"MUSEUM","name":"NUS Museum","services":[{"no":"C","show":true},{"no":"D1","show":false},{"no":"BTC1","show":false},{"no":"BTC2","show":false},{"no":"D2","show":true},{"no":"A2","show":true}],"nus":true},{"id":"16161","name":"Museum","services":[{"no":"151","show":true}]},{"id":"LT13","name":"LT13","services":[{"no":"A1","show":true},{"no":"D1","show":true},{"no":"BTC1","show":false},{"no":"B1","show":false}],"nus":true}
+      ],
+      routes: [
+        {
+          name: 'To Science',
+          stops: ['17179', '17009', '17099', '16161', 'MUSEUM'],
+          show: false
+        },
+        {
+          name: 'To COM',
+          stops: ['17179', '17009', 'LT13'],
+          show: false
+        },
+        {
+          name: 'Back from COM',
+          stops: ['COM2', '16189', '16131'],
+          show: false
+        },
+        // {
+        //   name: 'Back from Science',
+        //   stops: ['']
+        // },
+        {
+          name: 'Back from UTown',
+          stops: ['16169'],
+          show: false
+        }
+      ]
+    };
+    // const backupPref = {stops:[{"id":"COM2","services":[{"no":"A1","show":true,"arrival":"8m | 21m"},{"no":"D1(To BIZ2)","show":true,"arrival":"1m | 9m"},{"no":"D1(To UTown)","show":true,"arrival":"8m | 18m"},{"no":"A2","show":true,"arrival":"1m | 13m"}],"nus":true}]};
+    const localStorePrefId = 'busArrivalsPref';
+    let pref = JSON.parse(window.localStorage.getItem(localStorePrefId)) || backupPref;
+    const source = document.getElementById('template-busstop').innerHTML;
+    const template = Handlebars.compile(source);
+    // var a;
+    function setupUi() {
+      pref.routes.forEach((route, i) => {
+        let div = document.createElement('div');
+        let routeNameDelim = route.name.replace(/\s/, '-');
+        div.setAttribute('id', routeNameDelim);
+        // div.setAttribute('class', 'row');
+        div.insertAdjacentHTML('beforeend', `<a data-toggle="collapse" href="#route-${routeNameDelim}"><h3 class="route-toggle">${route.name}</h3></a>`);
+        let div2 = document.createElement('div');
+        div2.setAttribute('id', `route-${routeNameDelim}`);
+        div2.setAttribute('class', 'collapse');
+        if(route.show)
+          div2.setAttribute('class', 'collapse show');
+        let div3 = document.createElement('div');
+        div3.setAttribute('class', 'row');
+        route.stops.forEach((stopId, j) => {
+          let stop = pref.stops.find(s => s.id == stopId);
+          const html = template(stop);
+          div3.insertAdjacentHTML('beforeend', html);
+        });
+        div2.appendChild(div3);
+        div.appendChild(div2);
+        document.getElementById('wrapper').appendChild(div);
+      });
+    }
+    setupUi();
+    update();
 
-		pref.stops.forEach((stop, i) => {
-			var context = stop;
-			var html = template(context);
-			document.getElementById('tiles').insertAdjacentHTML('beforeend', html);
-		});
-		update();
-		function update() {
-			pref.stops.forEach((stop, i) => {
-				fetch('https://arrivelah.herokuapp.com/?id=' + stop.id)
-				.then((data) => data.json())
-				.then((data) => {
-					// a = data;
-					stop.services.map(prefService => {
-						dataService = data.services.find(service => service.no == prefService.no);
-						['next','next2','next3'].map(n => {
-							if(dataService && dataService[n])
-								prefService[n] = convertMS(dataService[n].duration_ms);
-							else
-								prefService[n] = 'N/A   ';
-						}, this);
-					});
-					var context = stop;
-					var html = template(context);
-					document.getElementById(stop.id).outerHTML = html;
-				});
-			});
-			// setTimeout(update, 15000);
-		}
+    function savePref() {
+      let prefCopy = pref;
+      prefCopy.stops.map(stop => {
+        stop.services.map(service => {
+          delete service.arrival;
+        });
+      })
+      window.localStorage.setItem(localStorePrefId, JSON.stringify(prefCopy));
+    }
 
-		function convertMS(ms) {
-			var m, s, r;
-			s = Math.floor(ms / 1000);
-			m = Math.floor(s / 60);
-			s = s % 60;
-			r = ms > 0 ? `${m}m${s}s` : 'Now';
-			return r.padEnd(6);
-		}
-		// fetch('https://arrivelah.herokuapp.com/?id=83139%26ServiceNo=150')
-		// .then((data) => data.json())
-		// .then((data) => console.log(data));
-		document.getElementById('tiles').addEventListener('click', e => {
-				if(e.target.classList.contains('badge')){
-					e.target.classList.toggle('badge-secondary');
-					e.target.classList.toggle('badge-light');
-					const service = e.target.innerHTML;
-					const line = e.path[1].querySelector(`code.s-${service}`);
-					line.classList.toggle('d-none');
-					const stop = e.path[1].id;
-					const prefService = pref.stops.find(e => e.id == stop).services.find(e => e.no == service);
-					prefService.show = !prefService.show;
-				}
-			});
-	</script>
+    function update() {
+      let stops = pref.stops.filter(stop => pref.routes.find(route => route.show && route.stops.includes(stop.id)));
+      stops.forEach((stop, i) => {
+        if(!stop.nus) {
+          // fetch('https://arrivelah.herokuapp.com/?id=' + stop.id)
+          // .then((res) => res.json())
+          // .then((data) => {
+          //   // a = data;
+          //   stop.services.map(prefService => {
+          //     const dataService = data.services.find(service => service.no == prefService.no);
+          //     prefService.arrival = '';
+          //     ['next','next2','next3'].map(n => {
+          //       if(dataService && dataService[n])
+          //         prefService.arrival += convertMS(dataService[n].duration_ms) + ' | ';
+          //       else
+          //         prefService.arrival = 'N/A    | ';
+          //     }, this);
+          //     prefService.arrival = prefService.arrival.slice(0, -3);
+          //   });
+          //   updateUi(stop);
+          // });
+          stop.services.map(prefService => {
+            if(prefService.show) {
+              fetch('https://arrivelah.herokuapp.com/?id=' + stop.id + '%26ServiceNo%3D' + prefService.no)
+              .then((res) => res.json())
+              .then((data) => {
+                const dataService = data.services[0];
+                prefService.arrival = formatArrivalLta(dataService);
+                updateUi();
+              });
+            }
+          });
+        } else {
+          fetch('https://cors-anywhere.herokuapp.com/http://nextbus.comfortdelgro.com.sg/testMethod.asmx/GetShuttleService?busstopname=' + stop.id) 
+            .then(res => res.text())
+            .then(s => new DOMParser().parseFromString(s, 'text/xml'))
+            .then(x => {
+              const data = JSON.parse(x.getElementsByTagName('string')[0].childNodes[0].nodeValue);
+              stop.services.map(prefService => {
+                const dataService = data.ShuttleServiceResult.shuttles.find(shuttle => shuttle.name == prefService.no);
+                prefService.arrival = formatArrivalNus(dataService);
+              });
+              updateUi(stop);
+            });
+        }
+      });
+      timeout = setTimeout(update, 15000);
+      console.log('updated');
+    }
+    var timeout;
+    function pause() {
+      clearTimeout(timeout);
+    }
+
+    function updateUi(stop) {
+      pref.stops.forEach((stop, i) => {
+        // if tile exists, just redraw it, otherwise add the new tile
+        const html = template(stop);
+        // if(document.getElementById(stop.id))
+        //   document.getElementById(stop.id).outerHTML = html;
+        // else
+        //   document.getElementById('tiles').insertAdjacentHTML('beforeend', html);
+        if(document.getElementsByClassName(`${stop.id}`)) {
+          let uiList = document.getElementsByClassName(`${stop.id}`);
+          for(var i = 0; i < uiList.length; i++)
+            uiList[i].outerHTML = html;
+        }
+      });
+    }
+
+    function convertMS(ms) {
+      let m, s, r;
+      s = Math.floor(ms / 1000);
+      m = Math.floor(s / 60);
+      s = s % 60;
+      r = ms > 0 ? `${m}m${s}s` : 'Now';
+      return r.padEnd(6);
+    }
+    document.getElementById('update-button').addEventListener('click', e => {
+      pause();
+      update();
+    });
+    document.getElementById('wrapper').addEventListener('click', e => {
+      if(e.target.classList.contains('badge')){
+        // toggle ui change
+        e.target.classList.toggle('badge-secondary');
+        e.target.classList.toggle('badge-light');
+        const service = e.target.innerHTML;
+        const line = e.path[2].querySelector(`code.s-${service}`);
+        line.classList.toggle('d-none');
+        // update pref
+        const stop = e.path[2].id;
+        const prefService = pref.stops.find(e => e.id == stop).services.find(e => e.no == service);
+        prefService.show = !prefService.show;
+        // if its to hide, remove arrival from service
+        if(!prefService.show && prefService.arrival)
+          delete prefService.arrival;
+      } else if(e.target.classList.contains('route-toggle')) {
+        // update pref
+        const prefRoute = pref.routes.find(r => r.name == e.target.textContent);
+        prefRoute.show = !prefRoute.show;
+      }
+      // save pref into localstorage
+      savePref();
+    });
+    var d;
+    document.getElementById('add-button').addEventListener('click', e => {
+      const stop = document.getElementById('bus-stop-input').value;
+      const stopName = document.getElementById('bus-stop-name-input').value;
+      const source = document.getElementById('bus-stop-source').value;
+      // if stop existed in pref, just update name regardless the source
+      let found;
+      if(found = pref.stops.find(s => s.id == stop)) {
+        found.name = stopName;
+        return;
+      }
+      if(source == 'NUS') {
+        fetch('https://cors-anywhere.herokuapp.com/http://nextbus.comfortdelgro.com.sg/testMethod.asmx/GetShuttleService?busstopname=' + stop) 
+        .then(res => res.text())
+        .then(s => new DOMParser().parseFromString(s, 'text/xml'))
+        .then(x => {
+          const data = JSON.parse(x.getElementsByTagName('string')[0].childNodes[0].nodeValue);
+          pref.stops.push({
+            id: data.ShuttleServiceResult.name,
+            name: stopName,
+            services: data.ShuttleServiceResult.shuttles.map(e => {
+              return {
+                no: e.name,
+                show: false,
+                arrival: formatArrivalNus(e)
+              }
+            }),
+            nus: true
+          });
+          updateUi();
+          savePref();
+        });
+      } else if(source == 'LTA') {
+        fetch('https://arrivelah.herokuapp.com/?id=' + stop)
+        .then(res => res.json())
+        .then(data => {
+          pref.stops.push({
+            id: stop,
+            name: stopName,
+            services: data.services.map(e => {
+              return {
+                no: e.no,
+                show: false,
+                arrival: formatArrivalLta(e)
+              }
+            })
+          });
+          updateUi();
+          savePref();
+        });
+      }
+      //pref.stops.add()
+      // save pref into localstorage
+      //Window.localStorage.setItem('busArrivalsPref', pref);
+    });
+
+    function formatArrivalLta(dataService) {
+      let arrival = '';
+      ['next','next2','next3'].map(n => {
+        if(dataService && dataService[n])
+          arrival += convertMS(dataService[n].duration_ms) + ' | ';
+        else
+          arrival += 'N/A    | ';
+      }, this);
+      return arrival.slice(0, -3);
+    }
+
+    function formatArrivalNus(dataService) {
+      let arrival = '';
+      ['arrivalTime', 'nextArrivalTime'].map(n => {
+        if(dataService[n] != '-') {
+          arrival += (dataService[n] == 'Arr' ? 'Now' : (dataService[n] + 'm').padEnd(3)) + ' | ';
+        }
+        else
+          arrival += 'N/A    | ';
+      }, this);
+      return arrival.slice(0, -3);
+    }
+  </script>
 </body>
 </html>
