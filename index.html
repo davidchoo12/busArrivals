@@ -30,6 +30,7 @@
     <!-- <div id="tiles" class="row"></div> -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Stop</button>
     <button id="update-button" type="button" class="btn btn-primary">Update</button>
+    <button id="pause-button" type="button" class="btn btn-primary">Pause</button>
   </div>
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -61,7 +62,7 @@
     </div>
   </div>
   <script id="template-busstop" type="text/template">
-    <div id="{{id}}" class="{{id}} busstop col-6 col-md-4 col-lg-3">
+    <div id="{{id}}" class="{{id}} busstop col-12 col-md-6 col-lg-3">
       <a data-toggle="collapse" href="#badges-{{id}}"><h5>{{name}} - {{id}}</h5></a>
       <div id="badges-{{id}}" class="collapse">
         {{#each services}}
@@ -82,7 +83,7 @@
       return (array.indexOf(value) > -1) ? "badge-secondary" : "badge-light";
     });
     const backupPref = {
-      stops: [{"id":"17179","name":"Clementi Stn","services":[{"no":"105","show":false},{"no":"106","show":false},{"no":"154","show":false},{"no":"183","show":true},{"no":"184","show":false},{"no":"185","show":false},{"no":"189","show":false},{"no":"201","show":true},{"no":"52","show":false}]},{"id":"17009","name":"Clementi Int","services":[{"no":"14","show":false},{"no":"147","show":false},{"no":"156","show":false},{"no":"165","show":false},{"no":"166","show":false},{"no":"173","show":false},{"no":"175","show":false},{"no":"196","show":false},{"no":"282","show":false},{"no":"284","show":false},{"no":"285","show":false},{"no":"7","show":false},{"no":"96","show":true},{"no":"99","show":false}]},{"id":"16189","name":"Computer Ctr","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16179","name":"Opp Yusof Ishak Hse","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16169","name":"NUS Raffles Hall","services":[{"no":"151","show":false},{"no":"96","show":true}]},{"id":"16131","name":"Opp Kent Ridge Ter","services":[{"no":"183","show":true},{"no":"188","show":false},{"no":"33","show":false},{"no":"33A","show":false}]},{"id":"17099","name":"Aft Dover Rd","services":[{"no":"151","show":true},{"no":"183","show":true},{"no":"196","show":false},{"no":"33","show":false},{"no":"96","show":true}]},{"id":"COM2","name":"COM2","services":[{"no":"A1","show":true},{"no":"D1(To BIZ2)","show":true},{"no":"D1(To UTown)","show":true},{"no":"A2","show":true}],"nus":true},{"id":"MUSEUM","name":"NUS Museum","services":[{"no":"C","show":true},{"no":"D1","show":false},{"no":"BTC1","show":false},{"no":"BTC2","show":false},{"no":"D2","show":true},{"no":"A2","show":true}],"nus":true},{"id":"16161","name":"Museum","services":[{"no":"151","show":true}]},{"id":"LT13","name":"LT13","services":[{"no":"A1","show":true},{"no":"D1","show":true},{"no":"BTC1","show":false},{"no":"B1","show":false}],"nus":true}
+      stops: [{"id":"17179","name":"Clementi Stn","services":[{"no":"105","show":false},{"no":"106","show":false},{"no":"154","show":false},{"no":"183","show":true},{"no":"184","show":false},{"no":"185","show":false},{"no":"189","show":false},{"no":"201","show":true},{"no":"52","show":false}]},{"id":"17009","name":"Clementi Int","services":[{"no":"14","show":false},{"no":"147","show":false},{"no":"156","show":false},{"no":"165","show":false},{"no":"166","show":false},{"no":"173","show":false},{"no":"175","show":false},{"no":"196","show":false},{"no":"282","show":false},{"no":"284","show":false},{"no":"285","show":false},{"no":"7","show":false},{"no":"96","show":true},{"no":"99","show":false}]},{"id":"16189","name":"Computer Ctr","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16179","name":"Opp Yusof Ishak Hse","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16169","name":"NUS Raffles Hall","services":[{"no":"151","show":false},{"no":"96","show":true}]},{"id":"16131","name":"Opp Kent Ridge Ter","services":[{"no":"183","show":true},{"no":"188","show":false},{"no":"33","show":false},{"no":"33A","show":false}]},{"id":"17099","name":"Aft Dover Rd","services":[{"no":"151","show":true},{"no":"183","show":true},{"no":"196","show":false},{"no":"33","show":false},{"no":"96","show":true}]},{"id":"COM2","name":"COM2","services":[{"no":"A1","show":true},{"no":"D1(To BIZ2)","show":true},{"no":"D1(To UTown)","show":true},{"no":"A2","show":true}],"nus":true},{"id":"MUSEUM","name":"NUS Museum","services":[{"no":"C","show":true},{"no":"D1","show":false},{"no":"BTC1","show":false},{"no":"BTC2","show":false},{"no":"D2","show":true},{"no":"A2","show":true}],"nus":true},{"id":"16161","name":"Museum","services":[{"no":"151","show":true}]},{"id":"LT13","name":"LT13","services":[{"no":"A1","show":true},{"no":"D1","show":true},{"no":"BTC1","show":false},{"no":"B1","show":false}],"nus":true},{"id":"HSSML-OPP","name":"i3 (Opp HSSML)","services":[{"no":"A2","show":true},{"no":"D1","show":true},{"no":"B2","show":true}],"nus":true}
       ],
       routes: [
         {
@@ -107,6 +108,11 @@
         {
           name: 'Back from UTown',
           stops: ['16169'],
+          show: false
+        },
+        {
+          name: 'Back from i3',
+          stops: ['HSSML-OPP', '16189', '16131'],
           show: false
         }
       ]
@@ -206,6 +212,7 @@
     var timeout;
     function pause() {
       clearTimeout(timeout);
+      console.log('paused');
     }
 
     function updateUi(stop) {
@@ -235,6 +242,9 @@
     document.getElementById('update-button').addEventListener('click', e => {
       pause();
       update();
+    });
+    document.getElementById('pause-button').addEventListener('click', e => {
+      pause();
     });
     document.getElementById('wrapper').addEventListener('click', e => {
       if(e.target.classList.contains('badge')){
@@ -313,6 +323,13 @@
       //pref.stops.add()
       // save pref into localstorage
       //Window.localStorage.setItem('busArrivalsPref', pref);
+    });
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden) {
+        pause();
+      } else {
+        update();
+      }
     });
 
     function formatArrivalLta(dataService) {
