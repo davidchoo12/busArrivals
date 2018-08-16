@@ -113,8 +113,174 @@
       return (array.indexOf(value) > -1) ? "badge-secondary" : "badge-light";
     });
     const backupPref = {
-      stops: [{"id":"17179","name":"Clementi Stn","services":[{"no":"105","show":false},{"no":"106","show":false},{"no":"154","show":false},{"no":"183","show":true},{"no":"184","show":false},{"no":"185","show":false},{"no":"189","show":false},{"no":"201","show":true},{"no":"52","show":false}]},{"id":"17009","name":"Clementi Int","services":[{"no":"14","show":false},{"no":"147","show":false},{"no":"156","show":false},{"no":"165","show":false},{"no":"166","show":false},{"no":"173","show":false},{"no":"175","show":false},{"no":"196","show":false},{"no":"282","show":false},{"no":"284","show":false},{"no":"285","show":false},{"no":"7","show":false},{"no":"96","show":true},{"no":"99","show":false}]},{"id":"16189","name":"Computer Ctr","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16179","name":"Opp Yusof Ishak Hse","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16169","name":"NUS Raffles Hall","services":[{"no":"151","show":false},{"no":"96","show":true}]},{"id":"16131","name":"Opp Kent Ridge Ter","services":[{"no":"183","show":true},{"no":"188","show":false},{"no":"33","show":false},{"no":"33A","show":false}]},{"id":"17099","name":"Aft Dover Rd","services":[{"no":"151","show":true},{"no":"183","show":true},{"no":"196","show":false},{"no":"33","show":false},{"no":"96","show":true}]},{"id":"COM2","name":"COM2","services":[{"no":"A1","show":true},{"no":"A2","show":true},{"no":"D1(To UTown)","show":true},{"no":"D1(To BIZ2)","show":true}],"nus":true},{"id":"MUSEUM","name":"NUS Museum","services":[{"no":"A2","show":true},{"no":"D1","show":false},{"no":"BTC1","show":false},{"no":"BTC2","show":false},{"no":"C","show":true},{"no":"D2","show":true}],"nus":true},{"id":"16161","name":"Museum","services":[{"no":"151","show":true}]},{"id":"LT13","name":"LT13","services":[{"no":"A1","show":true},{"no":"D1","show":true},{"no":"BTC1","show":false},{"no":"B1","show":false}],"nus":true},{"id":"HSSML-OPP","name":"i3 (Opp HSSML)","services":[{"no":"A2","show":true},{"no":"D1","show":true},{"no":"B2","show":true}],"nus":true},{"id":"LT29","name":"LT29","services":[{"no":"A1","show":false},{"no":"C","show":false},{"no":"D2","show":false},{"no":"A1E","show":false}],"nus":true},{"id":"16091","name":"Opp SIT Dover","services":[{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17121","name":"Blk 610","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17131","name":"Clementi Flyover","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17141","name":"Clementi Stadium","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17059","name":"Regent Pk","services":[{"no":"154","show":false},{"no":"188","show":false},{"no":"196","show":false},{"no":"201","show":false},{"no":"963","show":false}]},{"id":"16141","name":"Tentera Diraja Mque","services":[{"no":"183","show":false},{"no":"188","show":false},{"no":"33","show":false}]}],
+      stops: [{"id":"17179","name":"Clementi Stn","services":[{"no":"105","show":false},{"no":"106","show":false},{"no":"154","show":false},{"no":"183","show":true},{"no":"184","show":false},{"no":"185","show":false},{"no":"189","show":false},{"no":"201","show":true},{"no":"52","show":false}]},{"id":"17009","name":"Clementi Int","services":[{"no":"14","show":false},{"no":"147","show":false},{"no":"156","show":false},{"no":"165","show":false},{"no":"166","show":false},{"no":"173","show":false},{"no":"175","show":false},{"no":"196","show":false},{"no":"282","show":false},{"no":"284","show":false},{"no":"285","show":false},{"no":"7","show":false},{"no":"96","show":true},{"no":"99","show":false}]},{"id":"16189","name":"Computer Ctr","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16179","name":"Opp Yusof Ishak Hse","services":[{"no":"151","show":false},{"no":"95","show":false},{"no":"96","show":true}]},{"id":"16169","name":"NUS Raffles Hall","services":[{"no":"151","show":false},{"no":"96","show":true}]},{"id":"16131","name":"Opp Kent Ridge Ter","services":[{"no":"183","show":true},{"no":"188","show":false},{"no":"33","show":false},{"no":"33A","show":false}]},{"id":"17099","name":"Aft Dover Rd","services":[{"no":"151","show":true},{"no":"183","show":true},{"no":"196","show":false},{"no":"33","show":false},{"no":"96","show":true}]},{"id":"COM2","name":"COM2","services":[{"no":"A1","show":true},{"no":"A2","show":true},{"no":"D1(To UTown)","show":true},{"no":"D1(To BIZ2)","show":true}],"nus":true},{"id":"MUSEUM","name":"NUS Museum","services":[{"no":"A2","show":true},{"no":"D1","show":false},{"no":"BTC1","show":false},{"no":"BTC2","show":false},{"no":"C","show":true},{"no":"D2","show":true}],"nus":true},{"id":"16161","name":"Museum","services":[{"no":"151","show":true}]},{"id":"LT13","name":"LT13","services":[{"no":"B1","show":false},{"no":"BTC1","show":false},{"no":"A1","show":true},{"no":"D1","show":true}],"nus":true},{"id":"HSSML-OPP","name":"i3 (Opp HSSML)","services":[{"no":"B2","show":true},{"no":"A2","show":true},{"no":"D1","show":true}],"nus":true},{"id":"LT29","name":"LT29","services":[{"no":"A1","show":false},{"no":"C","show":false},{"no":"D2","show":false},{"no":"A1E","show":false}],"nus":true},{"id":"16091","name":"Opp SIT Dover","services":[{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17121","name":"Blk 610","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17131","name":"Clementi Flyover","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17141","name":"Clementi Stadium","services":[{"no":"188","show":false},{"no":"196","show":false},{"no":"197","show":false},{"no":"198","show":false},{"no":"963","show":false},{"no":"97","show":false}]},{"id":"17059","name":"Regent Pk","services":[{"no":"154","show":false},{"no":"188","show":false},{"no":"196","show":false},{"no":"201","show":false},{"no":"963","show":false}]},{"id":"16141","name":"Tentera Diraja Mque","services":[{"no":"183","show":false},{"no":"188","show":false},{"no":"33","show":false}]},{"id":"UTown","name":"UTown","services":[{"no":"B1","show":true},{"no":"B2","show":false},{"no":"D1","show":true},{"no":"D2","show":false},{"no":"C1","show":false}],"nus":true},{"id":"CENLIB","name":"Central Library","services":[{"no":"A1","show":false},{"no":"A1E","show":false},{"no":"B1","show":true},{"no":"D1","show":true},{"no":"BTC1","show":false}],"nus":true},{"id":"UTown Ret","name":"UTown Return (for C1)","services":[{"no":"C1","show":true}],"nus":true}],
       routes: [
+        {
+          name: 'To Utown',
+          stopsServices: [
+            {
+              stop: '17179',
+              services: ['183']
+            },
+            {
+              stop: '17009',
+              services: ['96']
+            },
+            {
+              stop: '17099',
+              services: ['183', '96']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'To COM',
+          stopsServices: [
+            {
+              stop: '17179',
+              services: ['183', '201']
+            },
+            {
+              stop: '17009',
+              services: ['96']
+            },
+            {
+              stop: 'LT13',
+              services: ['A1', 'D1']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'To i3BIZ2',
+          stopsServices: [
+            {
+              stop: '17179',
+              services: ['183', '201']
+            },
+            {
+              stop: '17009',
+              services: ['96']
+            },
+            {
+              stop: 'LT13',
+              services: ['B1', 'BTC1', 'A1', 'D1']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'UTown to Central Library',
+          stopsServices: [
+            {
+              stop: 'UTown',
+              services: ['B1', 'D1']
+            },
+            {
+              stop: 'CENLIB',
+              services: ['B1', 'D1']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'COM to i3BIZ2',
+          stopsServices: [
+            {
+              stop: 'COM2',
+              services: ['A1', 'D1(To BIZ2)']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'Back from COM (or COM to UTown)',
+          stopsServices: [
+            {
+              stop: 'COM2',
+              services: ['A2', 'D1(To UTown)']
+            },
+            {
+              stop: '16189',
+              services: ['96']
+            },
+            {
+              stop: '16131',
+              services: ['183']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'Back from UTown',
+          stopsServices: [
+            {
+              stop: 'UTown',
+              services: ['B2']
+            },
+            {
+              stop: 'UTown Ret',
+              services: ['C1']
+            },
+            {
+              stop: '16169',
+              services: ['96']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'Back from i3BIZ2',
+          stopsServices: [
+            {
+              stop: 'HSSML-OPP',
+              services: ['B2', 'A2', 'D1']
+            },
+            {
+              stop: '16189',
+              services: ['96']
+            },
+            {
+              stop: '16131',
+              services: ['183']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'i3BIZ2 to UTown',
+          stopsServices: [
+            {
+              stop: 'HSSML-OPP',
+              services: ['B2', 'D1']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'Back from Library', // was 'Back from Engin',
+          stopsServices: [
+            // {
+            //   stop: '16141',
+            //   services: ['183']
+            // },
+            {
+              stop: '16189',
+              services: ['96']
+            }
+          ],
+          show: false
+        },
+        {
+          name: 'COM to Library', // was 'COM to Engin',
+          stopsServices: [
+            {
+              stop: 'COM2',
+              services: ['A2', 'D1(To UTown)']
+            }
+          ],
+          show: false
+        },
         {
           name: 'To Science',
           stopsServices: [
@@ -140,149 +306,61 @@
             }
           ],
           show: false
-        },
-        {
-          name: 'To COM',
-          stopsServices: [
-            {
-              stop: '17179',
-              services: ['183', '201']
-            },
-            {
-              stop: '17009',
-              services: ['96']
-            },
-            {
-              stop: 'LT13',
-              services: ['A1', 'D1']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from COM',
-          stopsServices: [
-            {
-              stop: 'COM2',
-              services: ['A2', 'D1(To UTown)']
-            },
-            {
-              stop: '16189',
-              services: ['96']
-            },
-            {
-              stop: '16131',
-              services: ['183']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from Science via 96',
-          stopsServices: [
-            {
-              stop: 'LT29',
-              services: ['C', 'A1']
-            },
-            {
-              stop: '16169',
-              services: ['96']
-            },
-            {
-              stop: '16179',
-              services: ['96']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from Science via Regent Pk',
-          stopsServices: [
-            {
-              stop: '16091',
-              services: ['963']
-            },
-            {
-              stop: '17059',
-              services: ['154', '201', '196']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from Science via 196',
-          stopsServices: [
-            {
-              stop: '16091',
-              services: ['97', '197', '198']
-            },
-            {
-              stop: '17121',
-              services: ['196', '97', '197', '198']
-            },
-            {
-              stop: '17131',
-              services: ['196', '97', '197', '198']
-            },
-            {
-              stop: '17141',
-              services: ['196', '97', '197', '198']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from Engin',
-          stopsServices: [
-            {
-              stop: '16141',
-              services: ['183']
-            },
-            {
-              stop: '16189',
-              services: ['96']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'COM to Engin',
-          stopsServices: [
-            {
-              stop: 'COM2',
-              services: ['A2', 'D1(To UTown)']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from UTown',
-          stopsServices: [
-            {
-              stop: '16169',
-              services: ['96']
-            }
-          ],
-          show: false
-        },
-        {
-          name: 'Back from i3',
-          stopsServices: [
-            {
-              stop: 'HSSML-OPP',
-              services: ['A2', 'B2', 'D1(To UTown)']
-            },
-            {
-              stop: '16189',
-              services: ['96']
-            },
-            {
-              stop: '16131',
-              services: ['183']
-            }
-          ],
-          show: false
         }
+        // {
+        //   name: 'Back from Science via 96',
+        //   stopsServices: [
+        //     {
+        //       stop: 'LT29',
+        //       services: ['C', 'A1']
+        //     },
+        //     {
+        //       stop: '16169',
+        //       services: ['96']
+        //     },
+        //     {
+        //       stop: '16179',
+        //       services: ['96']
+        //     }
+        //   ],
+        //   show: false
+        // },
+        // {
+        //   name: 'Back from Science via Regent Pk',
+        //   stopsServices: [
+        //     {
+        //       stop: '16091',
+        //       services: ['963']
+        //     },
+        //     {
+        //       stop: '17059',
+        //       services: ['154', '201', '196']
+        //     }
+        //   ],
+        //   show: false
+        // },
+        // {
+        //   name: 'Back from Science via 196',
+        //   stopsServices: [
+        //     {
+        //       stop: '16091',
+        //       services: ['97', '197', '198']
+        //     },
+        //     {
+        //       stop: '17121',
+        //       services: ['196', '97', '197', '198']
+        //     },
+        //     {
+        //       stop: '17131',
+        //       services: ['196', '97', '197', '198']
+        //     },
+        //     {
+        //       stop: '17141',
+        //       services: ['196', '97', '197', '198']
+        //     }
+        //   ],
+        //   show: false
+        // },
       ]
     };
     // const backupPref = {stops:[{"id":"COM2","services":[{"no":"A1","show":true,"arrival":"8m | 21m"},{"no":"D1(To BIZ2)","show":true,"arrival":"1m | 9m"},{"no":"D1(To UTown)","show":true,"arrival":"8m | 18m"},{"no":"A2","show":true,"arrival":"1m | 13m"}],"nus":true}]};
@@ -305,11 +383,13 @@
         div2.setAttribute('class', 'collapse');
         if(route.show)
           div2.setAttribute('class', 'collapse show');
+        $(div2).on('shown.bs.collapse', update); // call update once it is shown, for some reason using addEventListener without jquery doesnt work
         let div3 = document.createElement('div');
         div3.setAttribute('class', 'row');
         const stopsServices = route.stopsServices;
         stopsServices.forEach(stopServices => {
           let stop = Object.assign({}, pref.stops.find(s => s.id == stopServices.stop));
+          stop.id = stop.id.replace(' ', ''); // to remove whitespace from 'UTown Ret'
           stop.services.forEach((e, j) => {
             stop.services[j].show = stopServices.services.includes(e.no);
           });
@@ -405,12 +485,13 @@
           const stopsServices = route.stopsServices;
           stopsServices.forEach(stopServices => {
             let stop = Object.assign({}, pref.stops.find(s => s.id == stopServices.stop));
+            stop.id = stop.id.replace(' ', ''); // to remove whitespace from 'UTown Ret'
             stop.services.forEach((e, j) => {
               stop.services[j].show = stopServices.services.includes(e.no);
             });
             const html = template(stop);
             const routeNameDelim = route.name.replace(/\s/g, '-');
-            document.querySelector(`#route-${routeNameDelim} .row #stop-${stop.id}`).outerHTML = html;
+            document.querySelector(`#route-${routeNameDelim} .row #stop-${stop.id.replace(' ', '')}`).outerHTML = html;
           });
           
         // });
