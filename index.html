@@ -465,7 +465,7 @@
             }
           });
         } else {
-          fetch('https://cors-anywhere.herokuapp.com/http://nextbus.comfortdelgro.com.sg/testMethod.asmx/GetShuttleService?busstopname=' + stop.id) 
+          fetch('https://cors-anywhere.herokuapp.com/https://nextbus.comfortdelgro.com.sg/testMethod.asmx/GetShuttleService?busstopname=' + stop.id) 
             .then(res => res.text())
             .then(s => new DOMParser().parseFromString(s, 'text/xml'))
             .then(x => {
