@@ -455,7 +455,7 @@
           // });
           stop.services.map(prefService => {
             if(prefService.show) {
-              fetch('https://arrivelah.herokuapp.com/?id=' + stop.id + '%26ServiceNo%3D' + prefService.no)
+              fetch('https://arrivelah2.busrouter.sg/?id=' + stop.id + '%26ServiceNo%3D' + prefService.no)
               .then((res) => res.json())
               .then((data) => {
                 const dataService = data.services[0];
