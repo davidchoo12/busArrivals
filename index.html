@@ -477,7 +477,7 @@
             .then(data => {
               stop.services.map(prefService => {
                 const dataService = data.ShuttleServiceResult.shuttles.find(shuttle => shuttle.name == prefService.no);
-                prefService.arrival = formatArrivalNus(dataService);
+                prefService.arrival = dataService ? formatArrivalNus(dataService) : 'invalid service';
               });
               updateUi(stop);
             });
